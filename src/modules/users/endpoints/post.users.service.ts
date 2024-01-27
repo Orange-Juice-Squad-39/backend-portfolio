@@ -1,12 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDTO } from '../dto/create-user.dto';
 
 @Injectable()
 export class PostUsersService {
   constructor(private prisma: PrismaService) {}
 
-  async createOneUser(data: CreateUserDto) {
+  async createOneUser(data: CreateUserDTO) {
     try {
       const userExists = await this.prisma.user.findFirst({
         where: { email: data.email },
