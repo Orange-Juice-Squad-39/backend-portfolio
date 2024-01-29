@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Get, Param, Delete, Patch} from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { ProjectDTO } from './prisma.projec.dto'
+import { ProjectDTO } from './dto/prisma.project.DTO'
 
 @Controller('projects')
 export class ProjectsController {
