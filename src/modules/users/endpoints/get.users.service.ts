@@ -7,8 +7,16 @@ export class GetUsersService {
 
   async findAllUsers() {
     try {
-      const users = await this.prisma.user.findMany();
-      const quantity = await this.prisma.user.count();
+      const users = await this.prisma.user.findMany({
+        where: {
+          activated: true,
+        },
+      });
+      const quantity = await this.prisma.user.count({
+        where: {
+          activated: true,
+        },
+      });
 
       return { quantity, users };
     } catch (error) {
@@ -24,7 +32,12 @@ export class GetUsersService {
 
   async findOneUser(id: string) {
     try {
-      const user = await this.prisma.user.findUnique({ where: { id: id } });
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: id,
+          activated: true,
+        },
+      });
 
       return user;
     } catch (error) {

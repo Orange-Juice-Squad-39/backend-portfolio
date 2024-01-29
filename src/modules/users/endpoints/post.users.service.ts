@@ -9,7 +9,10 @@ export class PostUsersService {
   async createOneUser(data: CreateUserDTO) {
     try {
       const userExists = await this.prisma.user.findFirst({
-        where: { email: data.email },
+        where: {
+          email: data.email,
+          activated: true,
+        },
       });
 
       if (userExists) {

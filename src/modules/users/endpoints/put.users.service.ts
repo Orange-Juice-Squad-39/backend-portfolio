@@ -6,9 +6,14 @@ import { UpdateUserDTO } from '../dto/update-user.dto';
 export class PutUsersService {
   constructor(private prisma: PrismaService) {}
 
-  async updateUser(id: string, data: UpdateUserDTO) {
+  async updateOneUser(id: string, data: UpdateUserDTO) {
     try {
-      const userExists = await this.prisma.user.findUnique({ where: { id } });
+      const userExists = await this.prisma.user.findUnique({
+        where: {
+          id: id,
+          activated: true,
+        },
+      });
 
       if (!userExists) {
         throw new HttpException(
@@ -22,7 +27,10 @@ export class PutUsersService {
 
       const updatedUser = await this.prisma.user.update({
         data,
-        where: { id },
+        where: {
+          id: id,
+          activated: true,
+        },
       });
 
       return {
