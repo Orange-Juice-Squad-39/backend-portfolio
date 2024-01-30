@@ -1,4 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'src/database/PrismaService';
 
 @Injectable()
@@ -42,11 +43,14 @@ export class DeleteUsersService {
       );
     }
   }
+  // TO DEPLOY:
+  //@Cron('0 05 * * *')
 
+  // TO TEST:
+  @Cron(CronExpression.EVERY_2_HOURS)
   async deleteInactivatedUsers() {
     const passingDate = new Date();
     passingDate.setMonth(passingDate.getMonth() - 1);
-
     try {
       await this.prisma.user.deleteMany({
         where: {

@@ -14,10 +14,11 @@ model User {
   lastName  String    @db.VarChar(30)
   email     String    @unique @db.VarChar(50)
   projects  Project[]
+  login     Login?
   activated Boolean   @default(true)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
@@ -32,9 +33,23 @@ model Project {
   userId      String?
   activated   Boolean @default(true)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@map("projects")
+}
+
+model Login {
+  id        String  @id
+  username  String  @unique @db.VarChar(50)
+  password  String  @db.VarChar(20)
+  user      User    @relation(fields: [id], references: [id])
+  activated Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([id])
+  @@map("logins")
 }
