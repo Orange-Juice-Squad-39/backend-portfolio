@@ -43,12 +43,12 @@ model Project {
 model Login {
   id        String  @id
   username  String  @unique @db.VarChar(50)
-  password  String  @db.VarChar(20)
+  password  String  @db.VarChar(150)
   user      User    @relation(fields: [id], references: [id])
   activated Boolean @default(true)
 
-  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  lastLogin DateTime @default(now())
 
   @@index([id])
   @@map("logins")

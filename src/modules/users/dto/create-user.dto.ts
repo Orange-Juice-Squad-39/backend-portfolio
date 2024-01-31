@@ -1,10 +1,6 @@
-import { IsUUID, IsEmail, Length } from 'class-validator';
-//import { User } from '../entities/user.entity';
+import { IsEmail, Length } from 'class-validator';
 
 export class CreateUserDTO {
-  @IsUUID()
-  id: string;
-
   @Length(2, 15)
   name: string;
 
@@ -14,4 +10,7 @@ export class CreateUserDTO {
   @IsEmail()
   @Length(2, 50)
   email: string;
+
+  @Length(8, 20)
+  password: string;
 }

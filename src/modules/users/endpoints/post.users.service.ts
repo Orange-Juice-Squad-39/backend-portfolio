@@ -1,16 +1,20 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { CreateUserDTO } from '../dto/create-user.dto';
+import { LoginsService } from 'src/modules/logins/logins.service';
 
 @Injectable()
 export class PostUsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private loginService: LoginsService,
+  ) {}
 
-  async createOneUser(data: CreateUserDTO) {
+  async createOneUser({ name, lastName, email, password }: CreateUserDTO) {
     try {
       const userExists = await this.prisma.user.findFirst({
         where: {
-          email: data.email,
+          email: email,
           activated: true,
         },
       });
@@ -25,7 +29,21 @@ export class PostUsersService {
         );
       }
 
-      const createdUser = await this.prisma.user.create({ data });
+      const createdUser = await this.prisma.user.create({
+        data: {
+          name,
+          lastName,
+          email,
+        },
+      });
+
+      const login = {
+        id: createdUser.id,
+        username: email,
+        password: password,
+      };
+
+      await this.loginService.createLogin(login);
 
       return {
         message: 'Cadastro feito com sucesso',
@@ -34,7 +52,7 @@ export class PostUsersService {
     } catch (error) {
       throw new HttpException(
         {
-          message: `Erro ao cadastrar, ${data.name}`,
+          message: 'Erro ao cadastrar usuário',
           error: error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
