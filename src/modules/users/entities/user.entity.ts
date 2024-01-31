@@ -5,6 +5,6 @@ export class User {
   email: string;
   activated: boolean;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
   deletedAt?: Date;
 }
