@@ -1,13 +1,13 @@
 import { Body, Controller, Post, Get, Param, Delete, Patch} from '@nestjs/common';
-import { CreateProjectDTO } from '../projects/dto/update-project.dto'
-import { ProjectsService } from '../projects/projects.module';
+import { ProjectsService } from './projects.service';
+import { ProjectDTO } from './dto/prisma.project.DTO'
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) { }
 
   @Post()
-  async create(@Body() data: CreateProjectDTO) {
+  async create(@Body() data: ProjectDTO) {
     return this.projectsService.create(data)
   }
 
@@ -17,7 +17,7 @@ export class ProjectsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() data: CreateProjectDTO) {
+  async update(@Param('id') id: string, @Body() data: ProjectDTO) {
     return this.projectsService.update(id, data);
   }
   @Delete(':id')
@@ -26,5 +26,3 @@ export class ProjectsController {
   }
 
 }
-
-export { ProjectsService };
