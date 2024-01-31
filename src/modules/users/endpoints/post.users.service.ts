@@ -1,14 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { CreateUserDTO } from '../dto/create-user.dto';
-import { LoginsService } from 'src/modules/logins/logins.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PostUsersService {
-  constructor(
-    private prisma: PrismaService,
-    private loginService: LoginsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async createOneUser({ name, lastName, email, password }: CreateUserDTO) {
     try {
@@ -37,13 +34,15 @@ export class PostUsersService {
         },
       });
 
+      const passwordHashing = await bcrypt.hash(password, 10);
+
       const login = {
         id: createdUser.id,
         username: email,
-        password: password,
+        password: passwordHashing,
       };
 
-      await this.loginService.createLogin(login);
+      await this.prisma.login.create({ data: login });
 
       return {
         message: 'Cadastro feito com sucesso',

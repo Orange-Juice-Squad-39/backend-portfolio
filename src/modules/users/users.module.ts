@@ -5,7 +5,6 @@ import { GetUsersService } from './endpoints/get.users.service';
 import { PostUsersService } from './endpoints/post.users.service';
 import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
-import { LoginsService } from '../logins/logins.service';
 
 @Module({
   controllers: [UsersController],
@@ -15,7 +14,12 @@ import { LoginsService } from '../logins/logins.service';
     PostUsersService,
     PutUsersService,
     DeleteUsersService,
-    LoginsService,
+  ],
+  exports: [
+    GetUsersService,
+    PostUsersService,
+    PutUsersService,
+    DeleteUsersService,
   ],
 })
 export class UsersModule {}
