@@ -15,5 +15,11 @@ import { DeleteUsersService } from './endpoints/delete.users.service';
     PutUsersService,
     DeleteUsersService,
   ],
+  exports: [
+    GetUsersService,
+    PostUsersService,
+    PutUsersService,
+    DeleteUsersService,
+  ],
 })
 export class UsersModule {}

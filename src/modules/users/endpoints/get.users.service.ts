@@ -34,7 +34,28 @@ export class GetUsersService {
     try {
       const user = await this.prisma.user.findUnique({
         where: {
-          id: id,
+          id,
+          activated: true,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Erro ao buscar usuário',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findLoginUser(username: string) {
+    try {
+      const user = await this.prisma.login.findUnique({
+        where: {
+          username,
           activated: true,
         },
       });
