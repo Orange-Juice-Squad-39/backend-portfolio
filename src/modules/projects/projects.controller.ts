@@ -4,7 +4,10 @@ import { CreateProjectService } from '../projects/endpoints/post.project.service
 import { GetProjectsService } from '../projects/endpoints/get.projects.service';
 import { UpdateProjectService } from '../projects/endpoints/put.project.service';
 import { DeleteProjectService } from '../projects/endpoints/delete.projects.service';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
   constructor(
@@ -14,6 +17,8 @@ export class ProjectsController {
     private readonly deleteProjectService: DeleteProjectService
   ) { }
 
+
+  
   @Post()
   async create(@Body() data: CreateProjectDTO) {
     return this.createProjectService.create(data)
