@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Param,
   Body,
@@ -40,7 +40,8 @@ export class UsersController {
     return this.postUsersService.createOneUser(data);
   }
 
-  @Put(':id')
+  // Controllers PATCH:
+  @Patch(':id')
   async updateUser(@Param('id') id: string, @Body() data: UpdateUserDTO) {
     return this.putUsersService.updateOneUser(id, data);
   }

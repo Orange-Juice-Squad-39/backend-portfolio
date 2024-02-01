@@ -10,7 +10,7 @@ export class PutUsersService {
     try {
       const userExists = await this.prisma.user.findUnique({
         where: {
-          id: id,
+          id,
           activated: true,
         },
       });
@@ -40,7 +40,7 @@ export class PutUsersService {
     } catch (error) {
       throw new HttpException(
         {
-          message: 'Erro ao atualizar dados',
+          message: 'Erro ao atualizar dados do usuário',
           error: error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,

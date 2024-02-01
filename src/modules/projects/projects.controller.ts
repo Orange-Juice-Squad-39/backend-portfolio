@@ -7,37 +7,47 @@ import {
   Delete,
   Patch,
 } from '@nestjs/common';
-import { CreateProjectDTO } from '../projects/dto/update-project.dto';
-import { PostProjectService } from '../projects/endpoints/post.project.service';
-import { GetProjectsService } from '../projects/endpoints/get.projects.service';
-import { UpdateProjectService } from '../projects/endpoints/put.project.service';
-import { DeleteProjectService } from '../projects/endpoints/delete.projects.service';
+import { CreateProjectDTO } from './dto/create-project.dto';
+import { UpdateProjectDTO } from './dto/update-project.dto';
+import { GetProjectsService } from './endpoints/get.projects.service';
+import { PostProjectsService } from './endpoints/post.projects.service';
+import { PutProjectsService } from './endpoints/put.projects.service';
+import { DeleteProjectsService } from './endpoints/delete.projects.service';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(
-    private readonly postProjectService: PostProjectService,
+    private readonly postProjectService: PostProjectsService,
     private readonly getProjectsService: GetProjectsService,
-    private readonly updateProjectService: UpdateProjectService,
-    private readonly deleteProjectService: DeleteProjectService,
+    private readonly updateProjectService: PutProjectsService,
+    private readonly deleteProjectService: DeleteProjectsService,
   ) {}
 
-  @Post()
-  async create(@Body() data: CreateProjectDTO) {
-    return this.postProjectService.create(data);
+  // Controllers GET:
+  @Get(':id')
+  async getProjectsOfUSer(@Param('id') id: string) {
+    return this.getProjectsService.findProjectsOfUser(id);
   }
-
   @Get()
-  async findAll() {
-    return this.getProjectsService.findAll();
+  async getAllProjects() {
+    return this.getProjectsService.findAllProjects();
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() data: CreateProjectDTO) {
-    return this.updateProjectService.update(id, data);
+  // Controllers POST:
+  @Post('register-proj')
+  async registerProject(@Body() data: CreateProjectDTO) {
+    return this.postProjectService.createOneProject(data);
   }
+
+  // Controllers PATCH:
+  @Patch(':id')
+  async updateProject(@Param('id') id: string, @Body() data: UpdateProjectDTO) {
+    return this.updateProjectService.updateOneProject(id, data);
+  }
+
+  // Controllers DELETE:
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    return this.deleteProjectService.delete(id);
+    return this.deleteProjectService.deleteOneProject(id);
   }
 }
