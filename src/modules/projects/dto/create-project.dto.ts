@@ -1,18 +1,19 @@
 import { IsUUID, Length } from 'class-validator';
 
 export class CreateProjectDTO {
-    @IsUUID()
-    id?: string;
+  @IsUUID()
+  id?: string;
 
-    @Length(2, 100)
-    title: string;
+  @Length(2, 100)
+  name: string;
 
-    @Length(2, 100)
-    link: string;
+  @Length(2, 100)
+  description: string;
 
-    @Length(2, 50)
-    tags: string;
+  @Length(2, 50)
+  category: string;
 
-    @Length(2, 500)
-    description: string;
+  @Length(2, 500)
+  details: string;
+  link: any;
 }

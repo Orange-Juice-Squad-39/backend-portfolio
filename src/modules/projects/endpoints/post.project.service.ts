@@ -4,7 +4,7 @@ import { CreateProjectDTO } from '../dto/create-project.dto';
 import { HttpException } from '@nestjs/common';
 
 @Injectable()
-export class CreateProjectService {
+export class PostProjectsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateProjectDTO) {

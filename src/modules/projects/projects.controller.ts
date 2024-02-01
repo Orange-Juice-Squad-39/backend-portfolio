@@ -1,6 +1,14 @@
-import { Body, Controller, Post, Get, Param, Delete, Patch } from '@nestjs/common';
-import { CreateProjectDTO } from '../projects/dto/update-project.dto'
-import { CreateProjectService } from '../projects/endpoints/post.project.service';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  Delete,
+  Patch,
+} from '@nestjs/common';
+import { CreateProjectDTO } from '../projects/dto/update-project.dto';
+import { PostProjectService } from '../projects/endpoints/post.project.service';
 import { GetProjectsService } from '../projects/endpoints/get.projects.service';
 import { UpdateProjectService } from '../projects/endpoints/put.project.service';
 import { DeleteProjectService } from '../projects/endpoints/delete.projects.service';
@@ -8,20 +16,20 @@ import { DeleteProjectService } from '../projects/endpoints/delete.projects.serv
 @Controller('projects')
 export class ProjectsController {
   constructor(
-    private readonly createProjectService: CreateProjectService,
+    private readonly postProjectService: PostProjectService,
     private readonly getProjectsService: GetProjectsService,
     private readonly updateProjectService: UpdateProjectService,
-    private readonly deleteProjectService: DeleteProjectService
-  ) { }
+    private readonly deleteProjectService: DeleteProjectService,
+  ) {}
 
   @Post()
   async create(@Body() data: CreateProjectDTO) {
-    return this.createProjectService.create(data)
+    return this.postProjectService.create(data);
   }
 
   @Get()
   async findAll() {
-    return this.getProjectsService.findAll()
+    return this.getProjectsService.findAll();
   }
 
   @Patch(':id')
@@ -32,5 +40,4 @@ export class ProjectsController {
   async delete(@Param('id') id: string) {
     return this.deleteProjectService.delete(id);
   }
-
 }
