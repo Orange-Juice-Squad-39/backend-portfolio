@@ -4,6 +4,9 @@ import { PrismaService } from "src/database/PrismaService";
 
 @Injectable()
 export class DeleteProjectService {
+  delete(id: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(private prisma: PrismaService) {}
 
   async deleteProject(id: string) {
