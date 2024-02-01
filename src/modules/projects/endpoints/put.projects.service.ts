@@ -1,43 +1,47 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { CreateProjectDTO } from '../dto/create-project.dto';
+import { UpdateProjectDTO } from '../dto/update-project.dto';
 
 @Injectable()
-export class UpdateProjectService {
+export class PutProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async update(id: string, data: CreateProjectDTO) {
+  async updateOneProject(id: string, data: UpdateProjectDTO) {
     try {
       const projectExist = await this.prisma.project.findUnique({
         where: {
           id,
+          activated: true,
         },
       });
 
       if (!projectExist) {
         throw new HttpException(
           {
+            message: 'Projeto não encontrado',
             status: HttpStatus.NOT_FOUND,
-            error: 'Projeto não encontrado',
           },
           HttpStatus.NOT_FOUND,
         );
       }
 
       const updatedProject = await this.prisma.project.update({
-        where: {
-          id,
-        },
         data,
+        where: {
+          id: id,
+          activated: true,
+        },
       });
 
-      return updatedProject;
+      return {
+        message: 'Informações atualizadas com sucesso',
+        user: updatedProject,
+      };
     } catch (error) {
       throw new HttpException(
         {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: 'Erro ao atualizar projeto',
-          details: error.message || 'Erro interno do servidor',
+          message: 'Erro ao atualizar dados do projeto',
+          error: error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

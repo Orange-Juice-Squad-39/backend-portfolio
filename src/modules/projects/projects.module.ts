@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common';
-import { ProjectsController } from './projects.controller';
 import { PrismaService } from 'src/database/PrismaService';
-import { DeleteProjectService } from './endpoints/delete.projects.service';
+import { ProjectsController } from './projects.controller';
 import { GetProjectsService } from './endpoints/get.projects.service';
-import { UpdateProjectService } from './endpoints/put.project.service';
+import { PostProjectsService } from './endpoints/post.projects.service';
+import { PutProjectsService } from './endpoints/put.projects.service';
+import { DeleteProjectsService } from './endpoints/delete.projects.service';
 
 @Module({
   controllers: [ProjectsController],
   providers: [
     PrismaService,
-    DeleteProjectService,
+    DeleteProjectsService,
     GetProjectsService,
-    UpdateProjectService,
+    PutProjectsService,
     PostProjectsService,
   ],
   exports: [
-    DeleteProjectService,
+    DeleteProjectsService,
     GetProjectsService,
-    UpdateProjectService,
+    PutProjectsService,
     PostProjectsService,
   ],
 })

@@ -20,9 +20,9 @@ export class PostUsersService {
         throw new HttpException(
           {
             message: 'Este email já está cadastrado',
-            status: HttpStatus.BAD_REQUEST,
+            status: HttpStatus.CONFLICT,
           },
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.CONFLICT,
         );
       }
 
@@ -46,6 +46,7 @@ export class PostUsersService {
 
       return {
         message: 'Cadastro feito com sucesso',
+        status: HttpStatus.CREATED,
         user: createdUser,
       };
     } catch (error) {
