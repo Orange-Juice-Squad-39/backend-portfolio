@@ -5,15 +5,14 @@ export class CreateProjectDTO {
     id?: string;
 
     @Length(2, 100)
-    name: string;
+    title: string;
 
     @Length(2, 100)
-    description: string;
+    link: string;
 
     @Length(2, 50)
-    category: string;
+    tags: string;
 
     @Length(2, 500)
-    details: string;
-  link: any;
+    description: string;
 }

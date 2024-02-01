@@ -1,25 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/database/PrismaService';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { PrismaService } from "src/database/PrismaService";
+
 
 @Injectable()
 export class DeleteProjectService {
   constructor(private prisma: PrismaService) {}
 
-  async delete(id: string) {
-    const projectExist = await this.prisma.project.findUnique({
-      where: {
-        id,
-      },
-    });
+  async deleteProject(id: string) {
+    try {
+      const project = await this.prisma.project.findUnique({
+        where: { id },
+      });
 
-    if (!projectExist) {
-      throw new Error('Projeto não existe!');
+      if (!project) {
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error: 'Projeto não encontrado',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      await this.prisma.project.delete({
+        where: { id },
+      });
+
+      return { message: 'Projeto deletado com sucesso' };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Erro ao deletar projeto',
+          details: error.message || 'Erro interno do servidor',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-
-    return await this.prisma.project.delete({
-      where: {
-        id,
-      },
-    });
   }
 }
