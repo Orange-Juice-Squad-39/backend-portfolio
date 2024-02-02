@@ -13,7 +13,9 @@ import { GetProjectsService } from './endpoints/get.projects.service';
 import { PostProjectsService } from './endpoints/post.projects.service';
 import { PutProjectsService } from './endpoints/put.projects.service';
 import { DeleteProjectsService } from './endpoints/delete.projects.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
   constructor(
