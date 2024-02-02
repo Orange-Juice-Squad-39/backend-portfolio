@@ -5,9 +5,11 @@ import { GetUsersService } from './endpoints/get.users.service';
 import { PostUsersService } from './endpoints/post.users.service';
 import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
+import { AppController } from 'src/app.controller';
+
 
 @Module({
-  controllers: [UsersController],
+  controllers: [UsersController,AppController],
   providers: [
     PrismaService,
     GetUsersService,
@@ -16,4 +18,8 @@ import { DeleteUsersService } from './endpoints/delete.users.service';
     DeleteUsersService,
   ],
 })
-export class UsersModule {}
+export class UsersModule {
+  googleLogin(req: any) {
+    throw new Error('Method not implemented.');
+  }
+}

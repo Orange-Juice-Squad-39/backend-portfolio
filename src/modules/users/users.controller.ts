@@ -6,6 +6,8 @@ import {
   Delete,
   Param,
   Body,
+  Req,
+  UseGuards
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { GetUsersService } from './endpoints/get.users.service';
@@ -14,6 +16,8 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+
 
 
 @ApiTags('Users')
@@ -54,3 +58,9 @@ export class UsersController {
     return this.deleteUsersService.deleteOneUser(id);
   }
 }
+
+
+
+
+
+

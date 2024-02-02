@@ -1,18 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser'
 
 async function main() {
   const port: number = 4444;
 
   const app = await NestFactory.create(AppModule, { cors: true });
 
+  app.use(cookieParser());
+
 
   const config = new DocumentBuilder()
-    .setTitle('Endpoins dos users e projects')
-.setDescription(
-      'O Swagger (aka OpenApi) é uma biblioteca muito conhecida no universo backend, estando disponível para diversas linguagens e frameworks. Ela gera um site interno no seu backend que descreve, com muitos detalhes, cada endpoint e estrutura de entidades presentes na sua aplicação.',
-    )
     .setVersion('1.0')
     .addTag('users')
     .build();
