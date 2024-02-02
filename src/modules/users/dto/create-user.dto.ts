@@ -3,14 +3,6 @@ import { IsUUID, IsEmail, Length } from 'class-validator';
 //import { User } from '../entities/user.entity';
 
 export class CreateUserDTO {
-
-  @ApiProperty({
-    description: ' ',
-    example: ''
-  })
-  @IsUUID()
-  id: string;
-
   @ApiProperty({
     description: 'O nome será utilizado para qualquer coisa (Perfil, Home Page, etc) que precise exibir informações da pessoa conectada',
     example: 'Carlos'
@@ -32,4 +24,7 @@ export class CreateUserDTO {
   @IsEmail()
   @Length(2, 50)
   email: string;
+
+  @Length(8, 20)
+  password: string;
 }

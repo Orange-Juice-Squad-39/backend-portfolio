@@ -1,13 +1,12 @@
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { CreateProjectDTO } from '../dto/create-project.dto';
-import { HttpException } from '@nestjs/common';
 
 @Injectable()
-export class CreateProjectService {
+export class PostProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateProjectDTO) {
+  async createOneProject(data: CreateProjectDTO) {
     try {
       const projectExists = await this.prisma.project.findFirst({
         where: {
@@ -18,21 +17,25 @@ export class CreateProjectService {
       if (projectExists) {
         throw new HttpException(
           {
+            message: 'O projeto já está cadastrado',
             status: HttpStatus.CONFLICT,
-            error: 'O projeto já existe.',
           },
           HttpStatus.CONFLICT,
         );
       }
 
-      const project = await this.prisma.project.create({ data });
-      return project;
+      const createdProject = await this.prisma.project.create({ data });
+
+      return {
+        message: 'Projeto criado com sucesso',
+        status: HttpStatus.CREATED,
+        project: createdProject,
+      };
     } catch (error) {
       throw new HttpException(
         {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: 'Erro ao criar projeto',
-          details: error.message || 'Erro interno do servidor',
+          message: 'Erro ao cadastrar projeto',
+          error: error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

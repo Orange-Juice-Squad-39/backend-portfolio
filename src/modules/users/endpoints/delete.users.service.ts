@@ -43,6 +43,7 @@ export class DeleteUsersService {
       );
     }
   }
+
   // TO DEPLOY:
   //@Cron('0 05 * * *')
 
