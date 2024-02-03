@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID, Length } from 'class-validator';
+import { IsString, IsUUID, Length } from 'class-validator';
 
 export class CreateProjectDTO {
   @IsUUID()
@@ -30,4 +30,7 @@ export class CreateProjectDTO {
   })
   @Length(2, 500)
   description: string;
+
+  @IsString()
+  urlImage: string;
 }
