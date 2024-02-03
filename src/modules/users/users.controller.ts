@@ -15,7 +15,6 @@ import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
 import { ApiTags } from '@nestjs/swagger';
 
-
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
@@ -24,7 +23,7 @@ export class UsersController {
     private readonly postUsersService: PostUsersService,
     private readonly putUsersService: PutUsersService,
     private readonly deleteUsersService: DeleteUsersService,
-  ) { }
+  ) {}
 
   // Controllers GET:
   @Get('get-users')
