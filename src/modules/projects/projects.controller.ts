@@ -18,19 +18,18 @@ export class ProjectsController {
   ) { }
 
 
-  
-  @Post()
-  async create(@Body() data: CreateProjectDTO) {
-    return this.createProjectService.create(data)
-  }
-
   @Get()
   async findAll() {
     return this.getProjectsService.findAll()
   }
 
+  @Post()
+  async registerProject(@Body() data: CreateProjectDTO) {
+    return this.createProjectService.create(data)
+  }
+
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() data: CreateProjectDTO) {
+  async updatePorject(@Param('id') id: string, @Body() data: CreateProjectDTO) {
     return this.updateProjectService.update(id, data);
   }
   @Delete(':id')
