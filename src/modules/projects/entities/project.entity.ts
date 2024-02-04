@@ -4,6 +4,7 @@ export class Project {
   link: string;
   tags: string;
   description: string;
+  urlImage: string;
   activated: boolean;
   createdAt: Date;
   updatedAt: Date;
