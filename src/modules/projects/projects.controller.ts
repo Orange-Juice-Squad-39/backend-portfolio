@@ -14,6 +14,8 @@ import { PostProjectsService } from './endpoints/post.projects.service';
 import { PutProjectsService } from './endpoints/put.projects.service';
 import { DeleteProjectsService } from './endpoints/delete.projects.service';
 import { ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @ApiTags('Projects')
 @Controller('projects')
@@ -30,9 +32,10 @@ export class ProjectsController {
   async getProjectsOfUSer(@Param('id') id: string) {
     return this.getProjectsService.findProjectsOfUser(id);
   }
-  @Get()
-  async getAllProjects() {
-    return this.getProjectsService.findAllProjects();
+
+  @Get('/discovery-projects')
+  async getAllProjects(@CurrentUser() user: User) {
+    return this.getProjectsService.findDiscoveredProjects(user);
   }
 
   // Controllers POST:

@@ -14,6 +14,7 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -37,6 +38,7 @@ export class UsersController {
   }
 
   // Controllers POST:
+  @IsPublic()
   @Post('register-user')
   async registerUser(@Body() data: CreateUserDTO) {
     return this.postUsersService.createOneUser(data);
