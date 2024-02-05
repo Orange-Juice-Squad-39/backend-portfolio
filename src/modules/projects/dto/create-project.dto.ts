@@ -1,10 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 export class CreateProjectDTO {
-  @IsUUID()
-  id?: string;
-
   @ApiProperty({
     description: 'O título do projeto representa o nome do projeto',
     example: 'Site pizzaria',
