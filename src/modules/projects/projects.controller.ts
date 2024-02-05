@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Get, Delete, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Patch,
+  Param,
+} from '@nestjs/common';
 import { CreateProjectDTO } from './dto/create-project.dto';
 import { UpdateProjectDTO } from './dto/update-project.dto';
 import { GetProjectsService } from './endpoints/get.projects.service';
@@ -28,6 +36,14 @@ export class ProjectsController {
   @Get('discovery')
   async getDiscoveredProjects(@CurrentUser() user: User) {
     return this.getProjectsService.findDiscoveredProjects(user.id);
+  }
+
+  @Get('search/:tag')
+  async getSearchProjects(
+    @CurrentUser() user: User,
+    @Param('tag') tag: string,
+  ) {
+    return this.getProjectsService.findProjectByTag(user.id, tag);
   }
 
   // Controllers POST:

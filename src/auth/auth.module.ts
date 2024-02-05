@@ -6,7 +6,7 @@ import { UsersModule } from 'src/modules/users/users.module';
 import { PrismaService } from 'src/database/PrismaService';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { GoogleStrategy } from './GoogleStrategy';
+import { GoogleStrategy } from '../auth/strategies/google.strategy';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
@@ -15,12 +15,16 @@ import { PassportModule } from '@nestjs/passport';
     UsersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '12h' },
     }),
   ],
-  controllers: [AuthController,],
-  providers: [PrismaService, AuthService, LocalStrategy, JwtStrategy,GoogleStrategy],
+  controllers: [AuthController],
+  providers: [
+    PrismaService,
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+  ],
 })
 export class AuthModule {}
-
-
