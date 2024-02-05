@@ -1,7 +1,8 @@
 export type GoogleProfile = {
-    id: string,
-    email: string,
-    name: string,
-    verified_email: boolean,
-    picture: string
-  }
+  id: string;
+  email: string;
+  name: string;
+  lastName: string;
+  urlImageUser: string;
+  verified_email: boolean;
+};

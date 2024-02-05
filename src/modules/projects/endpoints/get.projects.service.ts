@@ -60,7 +60,45 @@ export class GetProjectsService {
     }
   }
 
-  async findAllProjects() {
-    return await this.prisma.project.findMany();
+  async findProjectByTag(userId: string, search: string) {
+    try {
+      const projectsByTag = await this.prisma.project.findMany({
+        where: {
+          tags: {
+            contains: search.toLowerCase(),
+          },
+          userId: {
+            not: userId,
+          },
+        },
+        take: 30,
+      });
+
+      if (projectsByTag.length < 30) {
+        const projectsByTitle = await this.prisma.project.findMany({
+          where: {
+            title: {
+              contains: search.toLowerCase(),
+            },
+            userId: {
+              not: userId,
+            },
+          },
+          take: 30 - projectsByTag.length,
+        });
+
+        return [...projectsByTag, ...projectsByTitle];
+      }
+
+      return projectsByTag;
+    } catch (error) {
+      throw new HttpException(
+        {
+          message: 'Erro ao buscar projetos por tag',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

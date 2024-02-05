@@ -30,7 +30,7 @@ export class PutUsersService {
         data: {
           name: data.name,
           lastName: data.lastName,
-          email: data.email,
+          email: data.email.toLowerCase(),
         },
         where: {
           id: id,
@@ -41,7 +41,7 @@ export class PutUsersService {
       if (data.email) {
         await this.prisma.login.update({
           data: {
-            username: data.email,
+            username: data.email.toLowerCase(),
           },
           where: {
             id: id,

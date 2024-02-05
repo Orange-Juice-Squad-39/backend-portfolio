@@ -13,7 +13,7 @@ model User {
   name         String    @db.VarChar(15)
   lastName     String    @db.VarChar(30)
   email        String    @unique @db.VarChar(50)
-  urlImageUser String?   @db.VarChar(256)
+  urlImageUser String?   @db.VarChar(256) @default("https://static.thenounproject.com/png/363640-200.png")
   projects     Project[]
   login        Login?
   activated    Boolean   @default(true)

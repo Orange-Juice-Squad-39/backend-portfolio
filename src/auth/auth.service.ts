@@ -9,18 +9,18 @@ import { UserToken } from './entities/user.token';
 import axios from 'axios';
 import { GoogleProfile } from './entities/user.google.profile';
 
-
-
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private readonly getUsersService: GetUsersService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async generateJWTGoogle(profile: GoogleProfile) {
-    const userExists = await this.getUsersService.findUserByEmail(profile.email);
+    const userExists = await this.getUsersService.findUserByEmail(
+      profile.email,
+    );
 
     if (!userExists) {
       throw new HttpException(
@@ -32,9 +32,8 @@ export class AuthService {
       );
     }
 
-    const { accessToken } = this.login(userExists)
-    return accessToken
-
+    const { accessToken } = this.login(userExists);
+    return accessToken;
   }
 
   login(user: User): UserToken {
@@ -43,6 +42,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
       lastName: user.lastName,
+      urlImageUser: user.urlImageUser,
     };
 
     const jwtToken = this.jwtService.sign(userPayload);

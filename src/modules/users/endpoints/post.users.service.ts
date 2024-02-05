@@ -11,7 +11,7 @@ export class PostUsersService {
     try {
       const userExists = await this.prisma.user.findFirst({
         where: {
-          email: email,
+          email: email.toLowerCase(),
           activated: true,
         },
       });
@@ -30,7 +30,7 @@ export class PostUsersService {
         data: {
           name,
           lastName,
-          email,
+          email: email.toLowerCase(),
         },
       });
 
@@ -38,7 +38,7 @@ export class PostUsersService {
 
       const login = {
         id: createdUser.id,
-        username: email,
+        username: email.toLowerCase(),
         password: passwordHashing,
       };
 
