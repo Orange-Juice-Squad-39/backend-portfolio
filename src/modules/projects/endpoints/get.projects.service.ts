@@ -41,6 +41,7 @@ export class GetProjectsService {
             select: {
               urlImageUser: true,
               name: true,
+              lastName: true,
             },
           },
         },
@@ -57,5 +58,9 @@ export class GetProjectsService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async findAllProjects() {
+    return await this.prisma.project.findMany();
   }
 }

@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Param,
-  Body,
-} from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { GetUsersService } from './endpoints/get.users.service';
 import { PostUsersService } from './endpoints/post.users.service';
@@ -15,6 +7,8 @@ import { PutUsersService } from './endpoints/put.users.service';
 import { DeleteUsersService } from './endpoints/delete.users.service';
 import { ApiTags } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { User } from './entities/user.entity';
 
 @ApiTags('Users')
 @Controller('users')
@@ -27,32 +21,32 @@ export class UsersController {
   ) {}
 
   // Controllers GET:
-  @Get('get-users')
+  @Get('getusers')
   async getAllUsers() {
     return this.getUsersService.findAllUsers();
   }
 
-  @Get(':id')
-  async getUser(@Param('id') id: string) {
-    return this.getUsersService.findOneUser(id);
+  @Get('getuser')
+  async getUser(@CurrentUser() user: User) {
+    return this.getUsersService.findOneUser(user.id);
   }
 
   // Controllers POST:
   @IsPublic()
-  @Post('register-user')
+  @Post('registeruser')
   async registerUser(@Body() data: CreateUserDTO) {
     return this.postUsersService.createOneUser(data);
   }
 
   // Controllers PATCH:
-  @Patch(':id')
-  async updateUser(@Param('id') id: string, @Body() data: UpdateUserDTO) {
-    return this.putUsersService.updateOneUser(id, data);
+  @Patch('updateuser')
+  async updateUser(@CurrentUser() user: User, @Body() data: UpdateUserDTO) {
+    return this.putUsersService.updateOneUser(user.id, data);
   }
 
   // Controllers DELETE:
-  @Delete(':id')
-  async DeleteUsersSevice(@Param('id') id: string) {
-    return this.deleteUsersService.deleteOneUser(id);
+  @Delete('deleteuser')
+  async deleteUser(@CurrentUser() user: User) {
+    return this.deleteUsersService.deleteOneUser(user.id);
   }
 }

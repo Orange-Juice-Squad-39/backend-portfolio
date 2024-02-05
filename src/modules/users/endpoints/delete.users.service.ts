@@ -31,6 +31,20 @@ export class DeleteUsersService {
           activated: false,
         },
       });
+      await this.prisma.login.update({
+        where: { id },
+        data: {
+          activated: false,
+        },
+      });
+      await this.prisma.project.updateMany({
+        where: {
+          userId: id,
+        },
+        data: {
+          activated: false,
+        },
+      });
 
       return { message: 'Usuário deletado com sucesso' };
     } catch (error) {
@@ -54,6 +68,14 @@ export class DeleteUsersService {
     passingDate.setMonth(passingDate.getMonth() - 1);
     try {
       await this.prisma.user.deleteMany({
+        where: {
+          activated: false,
+          updatedAt: {
+            lte: passingDate,
+          },
+        },
+      });
+      await this.prisma.login.deleteMany({
         where: {
           activated: false,
           updatedAt: {
