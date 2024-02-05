@@ -32,7 +32,7 @@ export class AuthController {
     const profile = (await this.authService.getProfile(googleToken)).data
     console.log(JSON.stringify(profile))
     const token = await this.authService.generateJWTGoogle(profile)
-    res.redirect(`http://localhost:3000/${token}`);//mudar depois para página de criação dos projetos.
+    res.redirect(`http://localhost:3000/${token}`);
   }
 }
 
