@@ -32,5 +32,5 @@ export class CreateProjectDTO {
   description: string;
 
   @IsString()
-  urlImage: string;
+  urlImageProj: string;
 }

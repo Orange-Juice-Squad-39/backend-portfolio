@@ -3,7 +3,7 @@ export class User {
   name: string;
   lastName: string;
   email: string;
-  urlImage?: string;
+  urlImageUser?: string;
   activated: boolean;
   createdAt: Date;
   updatedAt: Date;

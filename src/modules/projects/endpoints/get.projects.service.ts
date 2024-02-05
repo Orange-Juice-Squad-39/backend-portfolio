@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { User } from 'src/modules/users/entities/user.entity';
+//import { User } from 'src/modules/users/entities/user.entity';
 
 @Injectable()
 export class GetProjectsService {
@@ -27,31 +27,27 @@ export class GetProjectsService {
     }
   }
 
-  async findDiscoveredProjects(user: User) {
+  async findDiscoveredProjects(id: string) {
     try {
-      const tagsProjOfUser = await this.prisma.project
-        .findMany({
-          where: {
-            userId: user.id,
+      const discoveryProject = await this.prisma.project.findMany({
+        where: {
+          userId: {
+            not: id,
           },
-          select: {
-            tags: true,
+          activated: true,
+        },
+        include: {
+          user: {
+            select: {
+              urlImageUser: true,
+              name: true,
+            },
           },
-        })
-        .then((projects) =>
-          projects
-            .flatMap((projects) =>
-              projects.tags.split(';').map((tags) => tags.trim()),
-            )
-            .filter((tag) => tag !== ''),
-        );
+        },
+        take: 30,
+      });
 
-      const uniqueTags = Array.from(new Set(tagsProjOfUser));
-
-      return {
-        tags: uniqueTags,
-        user: user,
-      };
+      return discoveryProject;
     } catch (error) {
       throw new HttpException(
         {
