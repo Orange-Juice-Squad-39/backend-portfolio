@@ -6,11 +6,13 @@ import { CreateProjectDTO } from '../dto/create-project.dto';
 export class PostProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async createOneProject(data: CreateProjectDTO) {
+  async createOneProject(userId: string, data: CreateProjectDTO) {
     try {
       const projectExists = await this.prisma.project.findFirst({
         where: {
           link: data.link,
+          activated: true,
+          userId,
         },
       });
 
@@ -24,7 +26,16 @@ export class PostProjectsService {
         );
       }
 
-      const createdProject = await this.prisma.project.create({ data });
+      const createdProject = await this.prisma.project.create({
+        data: {
+          title: data.title,
+          link: data.link,
+          tags: data.tags,
+          description: data.description,
+          urlImageProj: data.urlImageProj,
+          userId: userId,
+        },
+      });
 
       return {
         message: 'Projeto criado com sucesso',

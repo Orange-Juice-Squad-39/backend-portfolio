@@ -6,11 +6,12 @@ import { UpdateProjectDTO } from '../dto/update-project.dto';
 export class PutProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async updateOneProject(id: string, data: UpdateProjectDTO) {
+  async updateOneProject(userId: string, data: UpdateProjectDTO) {
     try {
       const projectExist = await this.prisma.project.findUnique({
         where: {
-          id,
+          userId,
+          id: data.id,
           activated: true,
         },
       });
@@ -28,7 +29,8 @@ export class PutProjectsService {
       const updatedProject = await this.prisma.project.update({
         data,
         where: {
-          id: id,
+          userId,
+          id: data.id,
           activated: true,
         },
       });

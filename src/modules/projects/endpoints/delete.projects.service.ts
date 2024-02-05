@@ -6,11 +6,12 @@ import { PrismaService } from 'src/database/PrismaService';
 export class DeleteProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async deleteOneProject(id: string) {
+  async deleteOneProject(userId: string, projId: string) {
     try {
       const projectExists = await this.prisma.project.findUnique({
         where: {
-          id,
+          userId,
+          id: projId,
           activated: true,
         },
       });
@@ -26,7 +27,11 @@ export class DeleteProjectsService {
       }
 
       await this.prisma.project.update({
-        where: { id },
+        where: {
+          userId,
+          id: projId,
+          activated: true,
+        },
         data: {
           activated: false,
         },
