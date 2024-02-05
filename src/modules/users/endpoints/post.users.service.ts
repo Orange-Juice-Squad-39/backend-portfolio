@@ -47,7 +47,6 @@ export class PostUsersService {
       return {
         message: 'Cadastro feito com sucesso',
         status: HttpStatus.CREATED,
-        user: createdUser,
       };
     } catch (error) {
       throw new HttpException(

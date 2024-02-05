@@ -30,9 +30,10 @@ export class ProjectsController {
   async getProjectsOfUSer(@Param('id') id: string) {
     return this.getProjectsService.findProjectsOfUser(id);
   }
-  @Get()
-  async getAllProjects() {
-    return this.getProjectsService.findAllProjects();
+
+  @Get('/discovery-projects')
+  async getDiscoveredProjects(@Body() id: string) {
+    return this.getProjectsService.findDiscoveredProjects(id);
   }
 
   // Controllers POST:
